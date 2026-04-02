@@ -6,13 +6,12 @@
     <title>Name It - Official Premium Service</title>
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- 프리미엄 폰트 라이브러리 -->
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
     
     <style id="theme-styles">
-        /* 테마별 변수 설정 */
-        :root {
+        /* 1. 기본 테마 (White) 정의 */
+        :root, [data-theme="white"] {
             --bg-body: #f8f8f8;
             --bg-poster: #ffffff;
             --text-main: #000000;
@@ -30,6 +29,7 @@
             --btn-text: #ffffff;
         }
 
+        /* 2. Black 테마 정의 */
         [data-theme="black"] {
             --bg-body: #0a0a0a;
             --bg-poster: #121212;
@@ -57,7 +57,7 @@
             align-items: center;
             font-family: 'Pretendard', sans-serif;
             color: var(--text-main);
-            transition: background-color 0.4s ease;
+            transition: all 0.4s ease;
             min-height: 100vh;
         }
 
@@ -89,9 +89,10 @@
             background: transparent;
         }
 
+        /* 활성화된 버튼 스타일 */
         .toggle-btn.active {
-            background: var(--text-main);
-            color: var(--bg-poster);
+            background: var(--text-main) !important;
+            color: var(--bg-poster) !important;
         }
 
         /* 메인 컨테이너 */
@@ -106,7 +107,7 @@
             padding-bottom: 80px;
             margin-top: 80px;
             margin-bottom: 80px;
-            transition: background-color 0.4s ease, border-color 0.4s ease;
+            transition: all 0.4s ease;
         }
 
         .section { padding: 0 10%; }
@@ -155,6 +156,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
+            transition: all 0.4s ease;
         }
 
         .service-name { font-weight: 700; font-size: 1.15rem; color: var(--text-main); }
@@ -171,6 +173,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
+            transition: all 0.4s ease;
         }
 
         .vip-badge {
@@ -228,7 +231,6 @@
             letter-spacing: -0.2px;
         }
 
-        /* 박스형 사이트 버튼 */
         .premium-cta-button {
             display: inline-block;
             margin-top: 40px;
@@ -241,45 +243,23 @@
             font-size: 14px;
             letter-spacing: 2px;
             text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s ease;
             border: 1px solid var(--btn-bg);
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .premium-cta-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
             opacity: 0.9;
-        }
-
-        #admin-panel {
-            margin-top: 40px;
-            padding: 30px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            width: 95%;
-            max-width: 800px;
-            color: var(--text-main);
-            margin-bottom: 100px;
-        }
-
-        .save-btn {
-            background: var(--text-main);
-            color: var(--bg-poster);
-            font-weight: 800;
-            padding: 15px 35px;
-            border-radius: 50px;
-            cursor: pointer;
-            border: none;
         }
     </style>
 </head>
-<body data-theme="white">
+
+<body data-theme="black">
 
     <div id="theme-switcher">
-        <button onclick="setTheme('white')" id="nav-btn-white" class="toggle-btn active">WHITE</button>
-        <button onclick="setTheme('black')" id="nav-btn-black" class="toggle-btn">BLACK</button>
+        <button onclick="setTheme('white')" id="nav-btn-white" class="toggle-btn">WHITE</button>
+        <button onclick="setTheme('black')" id="nav-btn-black" class="toggle-btn active">BLACK</button>
     </div>
 
     <div class="poster-wrapper" id="poster-capture">
@@ -291,8 +271,8 @@
 
         <div class="section">
             <div class="intro-main-statement">
-                <div style="white-space: nowrap;">Name It은 의뢰해 주신 닉네임으로</div>
-                <div style="white-space: nowrap;">24시간 <span class="silver-mark">성공적으로 변경할때 까지</span> 진행 합니다.</div>
+                <div>Name It은 의뢰해 주신 닉네임으로</div>
+                <div>24시간 <span class="silver-mark">성공적으로 변경할때 까지</span> 진행 합니다.</div>
             </div>
             <div style="height: 30px;"></div>
             <div style="text-align: center; color: var(--text-muted); font-size: 0.95rem;">
@@ -348,14 +328,13 @@
 
         <div class="section">
             <div class="form-box">
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #222; padding-bottom: 15px; margin-bottom: 40px; font-family: 'Gowun Batang', serif;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #222; padding-bottom: 15px; margin-bottom: 40px;">
                     <span style="font-weight: 800; font-size: 1.3rem;">기본 문의 양식</span>
                     <span style="font-size: 9px; opacity: 0.2; letter-spacing: 2px;">OFFICIAL FORM</span>
                 </div>
-                
                 <div class="form-row">
                     <div class="form-label">문의 양식</div>
-                    <div class="form-content" style="color: #FFD700; font-weight: 700;">통합카페 닉네임 / 맡길 닉네임 / 방식 / 휴면된 날짜 (모를 시 모름)</div>
+                    <div class="form-content" style="color: #FFD700; font-weight: 700;">통합카페 닉네임 / 맡길 닉네임 / 방식 / 휴면된 날짜</div>
                 </div>
                 <div class="form-row">
                     <div class="form-label">작성 예시</div>
@@ -365,24 +344,25 @@
                     <div class="form-label">기타 참고</div>
                     <div class="form-content">통합카페 미 가입자는 의뢰가 불가능하며 양식에 맞게 문의주세요</div>
                 </div>
-
-                <div style="text-align: center; color: rgba(255,255,255,0.2); font-size: 13px; margin-top: 50px; font-family: 'Gowun Batang', serif;">※ 특이사항 혹은 기타 문의도 편하게 보내주세요.</div>
+                <div style="text-align: center; color: rgba(255,255,255,0.2); font-size: 13px; margin-top: 50px;">※ 특이사항 혹은 기타 문의도 편하게 보내주세요.</div>
             </div>
         </div>
 
         <div class="section footer-cta-container">
             <div style="font-size: 14px; letter-spacing: 6px; margin-bottom: 40px; color: var(--text-main);">CONSULTATION</div>
-                <img id="footer-logo-final" src="KakaoTalk_20260329_181855930.png" alt="Contact Icon" style="width: 150px;" onerror="this.src='https://via.placeholder.com/150?text=Logo'">
-            <a id="kakao-link" href="https://pf.kakao.com/_BKfxdK" target="_blank" style="display: block; transition: opacity 0.3s;">
+            
+            <a id="kakao-link" href="https://pf.kakao.com/_BKfxdK" target="_blank" 
+               style="display: flex; justify-content: center; align-items: center; transition: opacity 0.3s; margin: 0 auto;">
+                   <img id="footer-logo-final" src="KakaoTalk_20260329_181855930.png" alt="Contact Icon" 
+                        style="width: 150px; display: block;" 
+                        onerror="this.src='https://via.placeholder.com/150?text=Logo'">
             </a>
 
-            <!-- 사용자 요청 문구로 업데이트됨 -->
             <div class="logo-action-text">
                 1:1 맞춤 상담은 로고를 클릭해 주세요.<br>
                 채널 추가 후 메시지를 보내시면 상담원과의 대화가 시작됩니다.
             </div>
 
-            <!-- 박스형 사이트 버튼 유지 -->
             <a id="kakao-button-link" href="https://pf.kakao.com/_BKfxdK" target="_blank" class="premium-cta-button">
                 CONTACT NAME IT OFFICIAL
             </a>
@@ -390,51 +370,20 @@
     </div>
 
     <script>
+        // ✅ 테마 변경 함수가 확실히 작동하도록 수정
         function setTheme(theme) {
             document.body.setAttribute('data-theme', theme);
-            document.getElementById('nav-btn-white').classList.toggle('active', theme === 'white');
-            document.getElementById('nav-btn-black').classList.toggle('active', theme === 'black');
-        }
-
-        document.getElementById('input-logo').addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (ev) => { document.getElementById('footer-logo').src = ev.target.result; };
-                reader.readAsDataURL(file);
+            
+            const whiteBtn = document.getElementById('nav-btn-white');
+            const blackBtn = document.getElementById('nav-btn-black');
+            
+            if (theme === 'white') {
+                whiteBtn.classList.add('active');
+                blackBtn.classList.remove('active');
+            } else {
+                blackBtn.classList.add('active');
+                whiteBtn.classList.remove('active');
             }
-        });
-
-        document.getElementById('input-link').addEventListener('input', (e) => {
-            const url = e.target.value;
-            document.getElementById('kakao-link').href = url;
-            document.getElementById('kakao-button-link').href = url;
-        });
-
-        function openInNewWindow() {
-            const currentTheme = document.body.getAttribute('data-theme') || 'white';
-            const posterHTML = document.getElementById('poster-capture').outerHTML;
-            const styles = document.head.innerHTML;
-            const bgColor = currentTheme === 'black' ? '#121212' : '#ffffff';
-
-            const newWindow = window.open('', '_blank');
-            newWindow.document.write(`
-                <!DOCTYPE html>
-                <html data-theme="${currentTheme}">
-                <head>
-                    ${styles}
-                    <style>
-                        body { background: ${bgColor}; padding: 0; margin: 0; display: flex; justify-content: flex-start; align-items: flex-start; min-height: 100vh; }
-                        #admin-panel, #theme-switcher { display: none !important; }
-                        .poster-wrapper { box-shadow: none; border: none; margin: 0; width: 800px !important; }
-                    </style>
-                </head>
-                <body data-theme="${currentTheme}">
-                    ${posterHTML}
-                </body>
-                </html>
-            `);
-            newWindow.document.close();
         }
     </script>
 </body>
