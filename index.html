@@ -3,469 +3,459 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Name It - Premium Master Edition</title>
+    <title>Name It - Official Premium Service</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <!-- 프리미엄 폰트 라이브러리 -->
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Nanum+Myeongjo:wght@400;700;800&family=Nanum+Square:wght@400;700;800&family=Nanum+Square+Neo:wght@400;700;800&family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Noto+Serif+KR:wght@400;700&family=Maru+Buri:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
     
-    <style>
+    <style id="theme-styles">
+        /* 테마별 변수 설정 */
         :root {
-            --bg-color: #ffffff;
-            --text-primary: #1a1a1a;
-            --text-secondary: #636366;
+            --bg-body: #f8f8f8;
+            --bg-poster: #ffffff;
+            --text-main: #000000;
+            --text-sub: #999999;
             --text-muted: #8e8e93;
-            --accent-silver: #d2d2d7;
-            --light-silver: #f5f5f7;
-            --galaxy-dark: #121212;
+            --border-color: #eeeeee;
+            --card-bg: #ffffff;
+            --card-border: #f2f2f7;
+            --vip-badge-bg: #000000;
+            --vip-badge-text: #ffffff;
+            --mark-color: rgba(0, 0, 0, 0.05);
+            --deco-color: #d1d1d6;
+            --refund-border: #f2f2f7;
+            --btn-bg: #000000;
+            --btn-text: #ffffff;
+        }
+
+        [data-theme="black"] {
+            --bg-body: #0a0a0a;
+            --bg-poster: #121212;
+            --text-main: #ffffff;
+            --text-sub: #888888;
+            --text-muted: #9ca3af;
+            --border-color: #2c2c2e;
+            --card-bg: #1a1a1c;
+            --card-border: #2c2c2e;
+            --vip-badge-bg: #ffffff;
+            --vip-badge-text: #000000;
+            --mark-color: rgba(255, 255, 255, 0.2);
+            --deco-color: #4b5563;
+            --refund-border: #222222;
+            --btn-bg: #ffffff;
+            --btn-text: #000000;
         }
 
         body {
-            font-family: 'Pretendard', sans-serif;
-            background-color: #fcfcfc;
-            color: var(--text-primary);
+            background-color: var(--bg-body);
             margin: 0;
-            padding: 60px 20px;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            letter-spacing: -0.05em;
+            font-family: 'Pretendard', sans-serif;
+            color: var(--text-main);
+            transition: background-color 0.4s ease;
+            min-height: 100vh;
         }
 
-        /* 포스터 메인 캔버스 - 800px 엄격 고정 */
+        /* 테마 스위치 UI */
+        #theme-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 6px;
+            border-radius: 50px;
+            display: flex;
+            gap: 4px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .toggle-btn {
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            color: var(--text-muted);
+            background: transparent;
+        }
+
+        .toggle-btn.active {
+            background: var(--text-main);
+            color: var(--bg-poster);
+        }
+
+        /* 메인 컨테이너 */
         .poster-wrapper {
-            width: 800px;
-            min-width: 800px;
-            background: var(--bg-color);
+            width: 95%;
+            max-width: 800px;
+            background: var(--bg-poster);
+            color: var(--text-main);
             position: relative;
-            overflow: hidden;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.03);
-            border: 1px solid #f2f2f7;
-            padding-bottom: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+            padding-bottom: 80px;
+            margin-top: 80px;
+            margin-bottom: 80px;
+            transition: background-color 0.4s ease, border-color 0.4s ease;
         }
 
-        .section {
-            position: relative;
-            z-index: 10;
-            padding: 2rem 5.5rem;
-        }
+        .section { padding: 0 10%; }
 
-        /* 헤더 섹션 */
         .header-main-title {
-            font-size: 5.2rem;
+            font-size: clamp(3rem, 10vw, 5.2rem);
             font-weight: 700;
-            letter-spacing: -0.02em;
-            color: #000;
+            letter-spacing: -1.5px;
+            color: var(--text-main);
+            font-family: 'Nanum Myeongjo', serif;
+            text-align: center;
+            margin-top: 80px;
             line-height: 1;
-            margin-bottom: 0.4rem;
-            font-family: 'Nanum Myeongjo', serif;
-        }
-        .header-sub-title {
-            font-size: 1.1rem;
-            color: #999;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            font-weight: 400;
-            font-family: 'Nanum Myeongjo', serif;
         }
 
-        /* 인트로 섹션 */
-        .intro-premium-section {
-            margin: 3.5rem 0 2.5rem 0;
+        .header-sub-title {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            font-family: 'Nanum Myeongjo', serif;
             text-align: center;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
         .intro-main-statement {
             font-family: 'Gowun Batang', serif;
-            font-size: 1.45rem; 
+            font-size: clamp(1.1rem, 4vw, 1.45rem); 
             font-weight: 600;
-            line-height: 1.85; 
-            letter-spacing: -0.01em; 
-            color: #000;
-            margin-bottom: 2.2rem;
-            width: 720px;
-            max-width: 720px;
-            display: block;
+            color: var(--text-main);
+            text-align: center;
+            line-height: 1.8;
+            word-break: keep-all;
         }
 
         .silver-mark {
-            display: inline-block;
-            background: linear-gradient(to bottom, transparent 65%, rgba(210, 210, 215, 0.45) 35%);
+            background: linear-gradient(to bottom, transparent 65%, var(--mark-color) 35%);
             padding: 0 4px;
-            font-weight: 800;
         }
 
-        .intro-promise-text-muted {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            font-weight: 400;
-            line-height: 1.7;
-            letter-spacing: -0.01em;
-            max-width: 600px;
-            margin: 0 auto;
-            word-break: keep-all;
-        }
-
-        .promise-strong {
-            color: #1a1a1a;
-            font-weight: 600;
-        }
-
-        .deco-dot {
-            font-size: 0.6rem;
-            color: var(--accent-silver);
-            margin: 2.5rem 0 1rem 0;
-        }
-
-        /* 서비스 카드 디자인 */
-        .service-premium-card {
-            background: #ffffff;
-            border: 1px solid #f2f2f7;
+        .service-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 4px;
-            padding: 1.6rem 2.5rem;
+            padding: 20px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s ease;
-            margin-bottom: 0.8rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+            margin-bottom: 12px;
         }
 
-        .service-desc-text {
-            font-size: 11px;
-            color: #9ca3af;
-            margin-top: 2px;
-            text-transform: none; 
-        }
+        .service-name { font-weight: 700; font-size: 1.15rem; color: var(--text-main); }
+        .service-desc { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+        .service-price { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; color: var(--text-main); }
 
-        /* 이전식 VIP 디자인 - 절대 좌표(Absolute) 고정 구조 */
-        .vip-tier-card-final {
-            background: #ffffff;
-            border: 1px solid #f2f2f7;
-            border-left: 6px solid #000;
+        .vip-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 6px solid var(--text-main);
             border-radius: 4px;
-            padding: 1.8rem 2.5rem;
+            padding: 20px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.8rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.015);
+            margin-bottom: 12px;
         }
 
-        .vip-info-group {
-            position: relative;
-            height: 26px; 
-            margin-bottom: 4px; 
-            width: 250px;
-            display: block;
-        }
-
-        .vip-title-text {
-            font-size: 18px;
-            font-weight: 700;
-            color: #000;
-            position: absolute;
-            left: 0;
-            top: 0;
-            line-height: 26px;
-        }
-
-        .vip-badge-box {
+        .vip-badge {
             font-size: 10px;
             font-weight: 800;
-            background: #000;
-            color: #fff !important;
+            background: var(--vip-badge-bg);
+            color: var(--vip-badge-text);
             padding: 4px 10px;
-            letter-spacing: 0.05em;
             border-radius: 3px;
-            position: absolute;
-            left: 60px; /* 캡처 엔진이 무시할 수 없는 강제 절대 좌표 */
-            top: 3px;
-            line-height: 1.2;
             white-space: nowrap;
         }
 
-        /* 문의 양식 디자인 */
-        .galaxy-dark-form {
-            background: var(--galaxy-dark);
+        .form-box {
+            background: #000000;
             border-radius: 4px;
-            padding: 4.5rem 4rem;
-            margin-top: 4rem;
-            position: relative;
-            text-align: left;
-            color: #fff;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-        }
-
-        .galaxy-form-header {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 1.2rem;
-            margin-bottom: 2.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-        }
-
-        .galaxy-form-title {
-            font-size: 1.6rem; 
-            font-weight: 800;
-            letter-spacing: 0.05em;
+            padding: 40px;
+            margin-top: 60px;
+            color: #ffffff;
+            border: 1px solid #222;
             font-family: 'Gowun Batang', serif;
         }
 
-        .galaxy-form-row {
-            margin-bottom: 2.2rem;
-            display: flex;
-            align-items: flex-start; 
-            gap: 2.5rem;
+        .form-row { display: flex; flex-direction: column; margin-bottom: 25px; gap: 10px; }
+        @media (min-width: 640px) {
+            .form-row { flex-direction: row; gap: 30px; }
         }
-
-        .galaxy-form-label {
-            min-width: 100px;
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: rgba(255,255,255,0.3); 
+        .form-label { 
+            min-width: 100px; 
+            color: rgba(255,255,255,0.4); 
+            font-weight: 700; 
             font-family: 'Gowun Batang', serif;
-            padding-top: 2px;
-        }
-
-        .galaxy-form-content {
-            flex: 1;
-            font-size: 1.15rem; 
-            font-weight: 400;
-            color: #fff;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            padding-bottom: 12px;
-            line-height: 1.6;
-            font-family: 'Gowun Batang', serif;
-            word-break: keep-all;
-            letter-spacing: 0.02em;
-        }
-
-        .galaxy-form-tip {
-            margin-top: 4rem;
-            text-align: center;
             font-size: 0.95rem;
-            color: rgba(255,255,255,0.3);
-            letter-spacing: 0.02em;
+        }
+        .form-content { 
+            flex: 1; 
+            border-bottom: 1px solid #222; 
+            padding-bottom: 8px; 
             font-family: 'Gowun Batang', serif;
+            font-size: 1.05rem;
+            line-height: 1.5;
         }
 
-        [contenteditable="true"] {
-            outline: none;
-            transition: all 0.2s;
+        /* 푸터 문의 영역 */
+        .footer-cta-container {
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .logo-action-text {
+            margin-top: 25px;
+            font-family: 'Gowun Batang', serif;
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            letter-spacing: -0.2px;
+        }
+
+        /* 박스형 사이트 버튼 */
+        .premium-cta-button {
+            display: inline-block;
+            margin-top: 40px;
+            background: var(--btn-bg);
+            color: var(--btn-text);
+            padding: 22px 50px;
             border-radius: 4px;
-        }
-        [contenteditable="true"]:hover {
-            background: rgba(0, 0, 0, 0.03);
-            cursor: pointer;
-        }
-        .galaxy-dark-form [contenteditable="true"]:hover {
-            background: rgba(255, 255, 255, 0.05);
+            font-family: 'Gowun Batang', serif;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--btn-bg);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        /* 하단 도구 패널 */
+        .premium-cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            opacity: 0.9;
+        }
+
         #admin-panel {
             margin-top: 40px;
             padding: 30px;
-            background: #ffffff;
-            border: 1px solid #e5e5ea;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 20px;
-            width: 800px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            z-index: 100;
+            width: 95%;
+            max-width: 800px;
+            color: var(--text-main);
+            margin-bottom: 100px;
         }
 
-        .hide-for-capture { display: none !important; }
-        
         .save-btn {
-            background: #000;
-            color: #fff;
+            background: var(--text-main);
+            color: var(--bg-poster);
             font-weight: 800;
-            padding: 18px 45px;
-            border-radius: 100px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-        }
-        .save-btn:hover { opacity: 0.8; transform: translateY(-3px); }
-
-        /* 우클릭 저장을 위한 화면 덮개(모달) 스타일 */
-        #capture-modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 99999;
-            overflow-y: auto;
-            text-align: center;
-            padding: 40px 20px;
-        }
-        #capture-modal img {
-            max-width: 100%;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            margin-bottom: 20px;
-            border: 1px solid #333;
-        }
-        #capture-modal .modal-instructions {
-            color: #fff;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-            background: #222;
-            padding: 15px;
-            border-radius: 8px;
-            display: inline-block;
-        }
-        .close-modal-btn {
-            background: #fff;
-            color: #000;
-            padding: 10px 30px;
+            padding: 15px 35px;
             border-radius: 50px;
-            font-weight: bold;
             cursor: pointer;
-            margin-bottom: 20px;
-            display: inline-block;
             border: none;
         }
-        .close-modal-btn:hover { background: #ccc; }
     </style>
 </head>
-<body id="main-body">
+<body data-theme="white">
 
-    <!-- 포스터 캔버스 -->
+    <div id="theme-switcher">
+        <button onclick="setTheme('white')" id="nav-btn-white" class="toggle-btn active">WHITE</button>
+        <button onclick="setTheme('black')" id="nav-btn-black" class="toggle-btn">BLACK</button>
+    </div>
+
     <div class="poster-wrapper" id="poster-capture">
-        
-        <!-- Header 섹션 -->
-        <div class="section flex flex-col items-center pt-24 pb-4">
-            <h1 class="header-main-title" id="target-header-main" contenteditable="true" spellcheck="false">Name It</h1>
-            <p class="header-sub-title" id="target-header-sub" contenteditable="true" spellcheck="false">YOUR NAME OUR PRIORITY</p>
+        <div class="header-main-title">Name It</div>
+        <div style="height: 15px;"></div>
+        <div class="header-sub-title">YOUR NAME OUR PRIORITY</div>
+
+        <div style="height: 60px;"></div>
+
+        <div class="section">
+            <div class="intro-main-statement">
+                <div style="white-space: nowrap;">Name It은 의뢰해 주신 닉네임으로</div>
+                <div style="white-space: nowrap;">24시간 <span class="silver-mark">성공적으로 변경할때 까지</span> 진행 합니다.</div>
+            </div>
+            <div style="height: 30px;"></div>
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.95rem;">
+                의뢰하신 닉네임과 모든 진행 사실은 <span style="color: var(--text-main); font-weight: 600;">철저히 비공개 원칙</span>으로<br>
+                완벽한 비밀을 보장합니다.
+            </div>
+            <div style="text-align: center; color: var(--deco-color); margin-top: 40px;">❖</div>
+        </div>
+
+        <div style="height: 40px;"></div>
+
+        <div class="section">
+            <div class="service-card">
+                <div><div class="service-name">닉변식</div><div class="service-desc">고객님 기존 계정에 닉네임 변경 진행</div></div>
+                <div class="service-price">+ 3.0</div>
+            </div>
+            <div class="service-card">
+                <div><div class="service-name">미통식</div><div class="service-desc">고객님 미통합 계정 또는 Name It 제공 미통디 사용</div></div>
+                <div class="service-price">+ 3.0</div>
+            </div>
+            <div class="service-card">
+                <div><div class="service-name">99식</div><div class="service-desc">Name It 제공 99레벨 빈 계정에 확보 후 전달</div></div>
+                <div class="service-price">+ 3.0</div>
+            </div>
+            <div class="service-card">
+                <div><div class="service-name">생성식</div><div class="service-desc">고객님 기존 계정 또는 Name It 제공 통합계정 사용</div></div>
+                <div class="service-price">+ 1.0</div>
+            </div>
             
-            <div class="intro-premium-section">
-                <!-- 캡처 시 줄바꿈 오차 방지를 위해 각 줄을 div로 강제 분리 -->
-                <div class="intro-main-statement" id="target-intro" contenteditable="true" spellcheck="false">
-                    <div style="white-space: nowrap;">Name It은 검증된 닉네임 매크로를 이용하여 24시간</div>
-                    <div style="white-space: nowrap;">의뢰해 주신 닉네임으로 <span class="silver-mark">성공적으로 변경할때 까지</span> 진행 합니다.</div>
+            <div class="vip-card">
+                <div>
+                    <table style="border-collapse: collapse;">
+                        <tr>
+                            <td style="width: 65px; font-weight: 700; font-size: 18px; color: var(--text-main);">이전식</td>
+                            <td><span class="vip-badge">VIP SERVICE</span></td>
+                        </tr>
+                    </table>
+                    <div class="service-desc">기존 계정 닉네임을 타 계정으로 이동</div>
                 </div>
-                
-                <div class="intro-promise-text-muted" contenteditable="true" spellcheck="false">
-                    의뢰하신 닉네임과 모든 진행 사실은 <span class="promise-strong">철저히 비공개 원칙</span>으로<br>
-                    완벽한 비밀을 보장합니다.
-                </div>
-
-                <div class="deco-dot">❖</div>
+                <div class="service-price">+ 5.0</div>
             </div>
         </div>
 
-        <!-- 서비스 옵션 섹션 -->
-        <div class="section px-24 py-2">
-            <div class="space-y-2.5">
-                <div class="service-premium-card">
-                    <div contenteditable="true" spellcheck="false">
-                        <h3 class="font-bold text-lg text-black">닉변식</h3>
-                        <p class="service-desc-text">고객님 기존 계정에 닉네임 변경 진행</p>
-                    </div>
-                    <span class="text-2xl font-black text-black tracking-tighter">+ 3.0</span>
-                </div>
-                <div class="service-premium-card">
-                    <div contenteditable="true" spellcheck="false">
-                        <h3 class="font-bold text-lg text-black">미통식</h3>
-                        <p class="service-desc-text">고객님 미통합 계정 또는 Name It 제공 미통디 사용</p>
-                    </div>
-                    <span class="text-2xl font-black text-black tracking-tighter">+ 3.0</span>
-                </div>
-                <div class="service-premium-card">
-                    <div contenteditable="true" spellcheck="false">
-                        <h3 class="font-bold text-lg text-black">99식</h3>
-                        <p class="service-desc-text">Name It 제공 99레벨 빈 계정에 확보 후 전달</p>
-                    </div>
-                    <span class="text-2xl font-black text-black tracking-tighter">+ 3.0</span>
-                </div>
-                <div class="service-premium-card">
-                    <div contenteditable="true" spellcheck="false">
-                        <h3 class="font-bold text-lg text-black">생성식</h3>
-                        <p class="service-desc-text">고객님 기존 계정 또는 Name It 제공 통합계정 사용</p>
-                    </div>
-                    <span class="text-2xl font-black text-black tracking-tighter">+ 1.0</span>
-                </div>
-                
-                <!-- 이전식 섹션 - 겹침 원천 차단을 위한 절대 좌표(Absolute) 구조 적용 -->
-                <div class="vip-tier-card-final">
-                    <div contenteditable="true" spellcheck="false">
-                        <div class="vip-info-group">
-                            <span class="vip-title-text">이전식</span>
-                            <span class="vip-badge-box" id="target-vip-badge">VIP SERVICE</span>
-                        </div>
-                        <p class="service-desc-text" style="color: #6b7280; margin-top: 4px;">기존 계정 닉네임을 타 계정으로 이동</p>
-                    </div>
-                    <span class="text-2xl font-black text-black tracking-tighter">+ 5.0</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 환불 규정 섹션 -->
-        <div class="section px-24 py-4">
-            <div class="text-center py-10 border-t border-b border-gray-100 mb-8">
-                <h2 class="text-[10px] font-black mb-4 text-gray-400 uppercase tracking-[0.4em]" contenteditable="true" spellcheck="false">Refund Policy</h2>
-                <p class="text-gray-600 leading-relaxed text-[0.95rem] font-light px-6" style="font-family: 'Gowun Batang', serif;" contenteditable="true" spellcheck="false">
+        <div class="section" style="margin-top: 60px; text-align: center;">
+            <div style="border-top: 1px solid var(--refund-border); border-bottom: 1px solid var(--refund-border); padding: 40px 0;">
+                <div style="font-size: 10px; letter-spacing: 4px; color: var(--text-sub); margin-bottom: 15px;">REFUND POLICY</div>
+                <div style="color: var(--text-muted); line-height: 1.8;">
                     만에 하나 타인 선점 등의 이유로 실패할 경우,<br>
-                    <span class="font-bold text-black border-b border-gray-100">100% 전액 환불해 드립니다. 안심하고 맡겨주세요.</span><br>
-                    <span class="text-[11px] text-gray-400 mt-3 block">(* 단, 단순 변심이나 개인 사정으로 인한 취소 및 환불은 불가합니다.)</span>
-                </p>
+                    <span style="color: var(--text-main); font-weight: 700; border-bottom: 1px solid var(--refund-border);">100% 전액 환불해 드립니다. 안심하고 맡겨주세요.</span>
+                </div>
             </div>
+        </div>
+
+        <div class="section">
+            <div class="form-box">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #222; padding-bottom: 15px; margin-bottom: 40px; font-family: 'Gowun Batang', serif;">
+                    <span style="font-weight: 800; font-size: 1.3rem;">기본 문의 양식</span>
+                    <span style="font-size: 9px; opacity: 0.2; letter-spacing: 2px;">OFFICIAL FORM</span>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-label">문의 양식</div>
+                    <div class="form-content" style="color: #FFD700; font-weight: 700;">통합카페 닉네임 / 맡길 닉네임 / 방식 / 휴면된 날짜 (모를 시 모름)</div>
+                </div>
+                <div class="form-row">
+                    <div class="form-label">작성 예시</div>
+                    <div class="form-content">통합카페 홍길동 / 홍길동 / 닉변식 / 날짜모름</div>
+                </div>
+                <div class="form-row" style="margin-bottom: 0;">
+                    <div class="form-label">기타 참고</div>
+                    <div class="form-content">통합카페 미 가입자는 의뢰가 불가능하며 양식에 맞게 문의주세요</div>
+                </div>
+
+                <div style="text-align: center; color: rgba(255,255,255,0.2); font-size: 13px; margin-top: 50px; font-family: 'Gowun Batang', serif;">※ 특이사항 혹은 기타 문의도 편하게 보내주세요.</div>
+            </div>
+        </div>
+
+        <div class="section footer-cta-container">
+            <div style="font-size: 14px; letter-spacing: 6px; margin-bottom: 40px; color: var(--text-main);">CONSULTATION</div>
             
-            <div class="galaxy-dark-form">
-                <div class="galaxy-form-header">
-                    <div class="galaxy-form-title" contenteditable="true" spellcheck="false">기본 문의 양식</div>
-                    <div class="text-[9px] opacity-10 font-black tracking-widest">OFFICIAL FORM</div>
-                </div>
-                
-                <p class="text-[11px] opacity-30 mb-12" contenteditable="true" spellcheck="false" style="font-family: 'Gowun Batang', serif;">아래 양식을 참고하여 문의해 주시길 바랍니다.</p>
-                
-                <div class="galaxy-form-row">
-                    <div class="galaxy-form-label" contenteditable="true" spellcheck="false">진행 방식</div>
-                    <div class="galaxy-form-content" contenteditable="true" spellcheck="false">생성식 / 닉변식 / 미통식 / 99식 / 이전식 중 택 1</div>
-                </div>
-                
-                <div class="galaxy-form-row">
-                    <div class="galaxy-form-label" contenteditable="true" spellcheck="false">문의 예시</div>
-                    <div class="galaxy-form-content" contenteditable="true" spellcheck="false">닉변식으로, [원하시는 닉네임] 맡기러 왔어요. 풀린 지는 N일 정도 됐습니다.</div>
-                </div>
-                
-                <div class="galaxy-form-row" style="margin-bottom: 0;">
-                    <div class="galaxy-form-label" contenteditable="true" spellcheck="false">기타참고</div>
-                    <div class="galaxy-form-content" contenteditable="true" spellcheck="false">날짜를 정확히 모르실 경우 "모름"으로 기재해 주셔도 무방합니다.</div>
-                </div>
+            <a id="kakao-link" href="https://pf.kakao.com/_BKfxdK" target="_blank" style="display: block; transition: opacity 0.3s;">
+                <img id="footer-logo" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22150%22%20height%3D%2250%22%3E%3Crect%20width%3D%22150%22%20height%3D%2250%22%20fill%3D%22transparent%22%2F%3E%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20fill%3D%22grey%22%20font-size%3D%2212%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%3EYOUR%20LOGO%3C%2Ftext%3E%3C%2Fsvg%3E" style="width: 150px; margin: 0 auto; cursor: pointer;">
+            </a>
 
-                <div class="galaxy-form-tip" contenteditable="true" spellcheck="false">
-                    ※ 특이사항 혹은 기타 문의도 편하게 보내주세요.
+            <!-- 사용자 요청 문구로 업데이트됨 -->
+            <div class="logo-action-text">
+                1:1 맞춤 상담은 로고를 클릭해 주세요.<br>
+                채널 추가 후 메시지를 보내시면 상담원과의 대화가 시작됩니다.
+            </div>
+
+            <!-- 박스형 사이트 버튼 유지 -->
+            <a id="kakao-button-link" href="https://pf.kakao.com/_BKfxdK" target="_blank" class="premium-cta-button">
+                CONTACT NAME IT OFFICIAL
+            </a>
+        </div>
+    </div>
+
+    <div id="admin-panel">
+        <div class="flex flex-col gap-6">
+            <div class="text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-gray-100 pb-2">Site Management Panel</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div>
+                    <label class="text-[10px] uppercase font-black text-gray-400 mb-2 block">Change Brand Logo</label>
+                    <input type="file" id="input-logo" accept="image/*" class="text-xs text-gray-400">
+                </div>
+                <div>
+                    <label class="text-[10px] uppercase font-black text-gray-400 mb-2 block">Consultation Link URL</label>
+                    <input type="text" id="input-link" value="https://pf.kakao.com/_BKfxdK" class="bg-transparent border-b border-gray-300 w-full text-xs p-1 outline-none focus:border-black">
                 </div>
             </div>
-        </div>
-
-        <!-- 푸터 상담 섹션 -->
-        <div class="section pb-20 text-center flex flex-col items-center">
-            <h2 class="text-base font-black mb-10 text-black tracking-[0.4em] uppercase" style="font-family: 'Nanum Myeongjo', serif;" contenteditable="true" spellcheck="false">Consultation</h2>
-            <a link href="https://pf.kakao.com/_BKfxdK" target="_blank" class="transition-all hover:opacity-60 duration-500 cursor-pointer block">
-                <img id="footer-logo-final" src="KakaoTalk_20260329_181855930.png" alt="Contact Icon" style="width: 150px;" onerror="this.src='https://via.placeholder.com/150?text=Logo'">
-            </a>
-            <p class="text-[11px] text-gray-400 mt-12 tracking-widest font-medium" contenteditable="true" spellcheck="false">
-                1:1 맞춤 상담은 위 이미지를 클릭해 주세요.<br>
-                <a id="kakao-btn-text" href="https://pf.kakao.com/_BKfxdK" target="_blank" class="text-black font-black uppercase mt-3 block tracking-[0.1em] text-xs underline underline-offset-4 cursor-pointer hover:opacity-70 transition-opacity">▲ CONNECT TO NAME IT OFFICIAL ▲</a>
-            </p>
+            <div class="flex justify-center pt-4">
+                <button onclick="openInNewWindow()" class="save-btn shadow-lg">📸 고화질 이미지 캡처용 창 열기</button>
+            </div>
         </div>
     </div>
 
-    </div>
-    
+    <script>
+        function setTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            document.getElementById('nav-btn-white').classList.toggle('active', theme === 'white');
+            document.getElementById('nav-btn-black').classList.toggle('active', theme === 'black');
+        }
+
+        document.getElementById('input-logo').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => { document.getElementById('footer-logo').src = ev.target.result; };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('input-link').addEventListener('input', (e) => {
+            const url = e.target.value;
+            document.getElementById('kakao-link').href = url;
+            document.getElementById('kakao-button-link').href = url;
+        });
+
+        function openInNewWindow() {
+            const currentTheme = document.body.getAttribute('data-theme') || 'white';
+            const posterHTML = document.getElementById('poster-capture').outerHTML;
+            const styles = document.head.innerHTML;
+            const bgColor = currentTheme === 'black' ? '#121212' : '#ffffff';
+
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html data-theme="${currentTheme}">
+                <head>
+                    ${styles}
+                    <style>
+                        body { background: ${bgColor}; padding: 0; margin: 0; display: flex; justify-content: flex-start; align-items: flex-start; min-height: 100vh; }
+                        #admin-panel, #theme-switcher { display: none !important; }
+                        .poster-wrapper { box-shadow: none; border: none; margin: 0; width: 800px !important; }
+                    </style>
+                </head>
+                <body data-theme="${currentTheme}">
+                    ${posterHTML}
+                </body>
+                </html>
+            `);
+            newWindow.document.close();
+        }
     </script>
-
 </body>
 </html>
